@@ -39,25 +39,25 @@ const App = () => {
         })
     }}
     
-  const update = (id, personObject) =>
-  personService
-    .update(id, personObject)
-    .then(returnedPerson => 
-      setPersons(persons.map(person => person.id !== id 
-        ? person
-        : returnedPerson)))
-    .then(() => 
-      console.log('Replaced!')
-      )
-    .then(() => {
-      setMessage(`Updated ${personObject.name}'s number!`)
-    })
-    .catch(error => {
-      setMessage('removed')
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000) 
-    })
+  const update = (id, personObject) => 
+    personService
+      .update(id, personObject)
+      .then(returnedPerson => 
+        setPersons(persons.map(person => person.id !== id 
+          ? person
+          : returnedPerson)))
+      .then(() => 
+        console.log('Replaced!')
+        )
+      .then(() => {
+        setMessage(`Updated ${personObject.name}'s number!`)
+      })
+      .catch(error => {
+        setMessage('removed')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000) 
+      })
 
   const addPerson = event => {
     event.preventDefault();
@@ -73,17 +73,20 @@ const App = () => {
         }
     } else {
       setPersons(persons.concat(personObject));
+
       personService
-      .create(personObject)
-      .then(response => {
-        console.log(response) })
-      .then(() => {
-        setMessage(`Added ${personObject.name}`)
-      })
+        .create(personObject)
+        .then(response => {
+          console.log(response) })
+        .then(() => {
+          setMessage(`Added ${personObject.name}`)
+        })
     }
     setNewName("");
     setNewNumber("")
+    setMessage("")
   };
+  
   const filterChangeHandler = event => {
     console.log(event.target.value);
     setNewFilter(event.target.value);
@@ -111,7 +114,8 @@ const App = () => {
     <div>
      <h1> Phonebook </h1>
      <Notification message={message} />
-     <Filter newFilter={newFilter} filterChangeHandler={filterChangeHandler}/>
+     <Filter newFilter={newFilter} 
+     filterChangeHandler={filterChangeHandler}/>
       <h1> Add a New Contact </h1>
       <PersonForm 
       addPerson={addPerson} 
