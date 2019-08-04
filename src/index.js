@@ -16,11 +16,25 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
+
     personService
       .getAll()
-      .then(initialPosts => setPersons(initialPosts))
+      .then(initialPosts => 
+        setPersons(initialPosts))
   }, [])
 
+  const filterChangeHandler = event => {
+    console.log(event.target.value);
+    setNewFilter(event.target.value);
+  };
+  const nameChangeHandler = event => {
+    console.log(event.target.value);
+    setNewName(event.target.value);
+  };
+  const numberChangeHandler = event => {
+    console.log(event.target.value);
+    setNewNumber(event.target.value);
+  };
 
   const del = person => {
     if (window.confirm(`Delete ${person.name}?`)) {
@@ -59,46 +73,35 @@ const App = () => {
         }, 5000) 
       })
 
-  const addPerson = event => {
+  const add = person => 
+    personService
+      .create(person)
+      .then(newPerson =>
+        setPersons(persons.concat(newPerson)))
+      .then(() => setMessage(`Added ${person.name}`))
+    
+
+  const addAndUpdate = event => {
     event.preventDefault();
     const personObject = {
       name: newName,
-      number: newNumber, 
-      id: persons.length + 1
+      number: newNumber
     };
-    const found = persons.find(person => person.name === newName)
+    const found = persons.find(person => 
+      person.name === newName)
     if (found !== undefined) {
         if (window.confirm(`${newName}'s is already added to phonebook, replace with a new one?`)) {
           update(found.id, personObject)
         }
     } else {
-      setPersons(persons.concat(personObject));
-
-      personService
-        .create(personObject)
-        .then(response => {
-          console.log(response) })
-        .then(() => {
-          setMessage(`Added ${personObject.name}`)
-        })
-    }
+      add(personObject)
+      }
     setNewName("");
     setNewNumber("")
     setMessage("")
   };
   
-  const filterChangeHandler = event => {
-    console.log(event.target.value);
-    setNewFilter(event.target.value);
-  };
-  const nameChangeHandler = event => {
-    console.log(event.target.value);
-    setNewName(event.target.value);
-  };
-  const numberChangeHandler = event => {
-    console.log(event.target.value);
-    setNewNumber(event.target.value);
-  };
+
 
   const Rows = () =>
   persons
