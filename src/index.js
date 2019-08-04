@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Filter from './components/Filter'
 import Person from './components/Person'
-import Footer from './components/Footer'
 import Notification from './components/Notification'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
 import './components/styles/styles.css'
-import PersonService from './components/services/persons'
+import personService from './components/services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -18,17 +16,15 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    personService
+      .getAll()
+      .then(initialPosts => setPersons(initialPosts))
   }, [])
+
 
   const del = person => {
     if (window.confirm(`Delete ${person.name}?`)) {
-    PersonService
+    personService
       .del(person.id)
       .then(returned =>
         setPersons(persons.filter(p => p.id !== person.id)))
@@ -44,7 +40,7 @@ const App = () => {
     }}
     
   const update = (id, personObject) =>
-  PersonService
+  personService
     .update(id, personObject)
     .then(returnedPerson => 
       setPersons(persons.map(person => person.id !== id 
@@ -67,8 +63,8 @@ const App = () => {
     event.preventDefault();
     const personObject = {
       name: newName,
-      number: newNumber 
-      //id: persons.length + 1
+      number: newNumber, 
+      id: persons.length + 1
     };
     const found = persons.find(person => person.name === newName)
     if (found !== undefined) {
@@ -77,7 +73,7 @@ const App = () => {
         }
     } else {
       setPersons(persons.concat(personObject));
-      PersonService
+      personService
       .create(personObject)
       .then(response => {
         console.log(response) })

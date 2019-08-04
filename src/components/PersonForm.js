@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-  const PersonForm = ({ addPerson, newName, nameChangeHandler, newNumber, numberChangeHandler}) => {
+import React from "react";
+  const PersonForm = ({ 
+    addPerson, 
+    newName, 
+    nameChangeHandler, 
+    newNumber, 
+    numberChangeHandler}) => {
     return (
         <div> 
         <form onSubmit={addPerson}>

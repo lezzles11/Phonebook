@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
   const Filter = ({ newFilter, filterChangeHandler }) => {
     return (
         <p>filter shown with
