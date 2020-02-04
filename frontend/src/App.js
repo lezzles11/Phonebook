@@ -85,12 +85,6 @@ const App = () => {
             setNewNumber("");
             notify(`Replaced ${newName}!`);
           });
-        /*
-          .catch(() => {
-            setPersons(persons.filter(p => p.name !== newName))
-            notify(`Henkilön ${newName} oli jo poistettu`, 'error')
-          })
-          */
       }
 
       return;
@@ -105,13 +99,13 @@ const App = () => {
         setPersons(persons.concat(createdPerson));
         setNewName("");
         setNewNumber("");
-        notify(`Deleted ${createdPerson.name}`);
+        notify(`Added ${createdPerson.name}`);
       });
   };
 
   const deletePerson = id => {
     const person = persons.find(p => p.id === id);
-    const ok = window.confirm(`Deleted ${person.name}!`);
+    const ok = window.confirm(`Delete ${person.name}?`);
     if (ok) {
       personService.remove(id).then(() => {
         setPersons(persons.filter(p => p.id !== id));
@@ -130,7 +124,7 @@ const App = () => {
   return (
     <div className="container font4">
       <h2>Phonebook</h2>
-
+      <br />
       <Notification notification={notification} />
 
       <Filter handleChange={handleFilterChange} value={filter} />
