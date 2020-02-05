@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
-if (process.argv.length < 3) {
-  console.log("give password as argument");
-  process.exit(1);
-}
+require("dotenv").config();
+const uri = process.env.MONGODB_URI;
 
-const password = process.env.MONGODB_URI;
-
-const url = password;
-
-mongoose.connect(url, { createIndexes: true, useUnifiedTopology: true });
+mongoose.createConnection(
+  "mongodb+srv://lezzles:orangeorange@react-ebtnd.mongodb.net/test?retryWrites=true&w=majority",
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true
+  }
+);
 
 const Person = mongoose.model("Person", {
   name: String,

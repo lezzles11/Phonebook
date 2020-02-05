@@ -1,15 +1,16 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
+
 mongoose.set("useFindAndModify", false);
 
 const uniqueValidator = require("mongoose-unique-validator");
 
-const url = process.env.MONGODB_URI;
-
 console.log("Connecting to mongodb!");
 
+const uri = process.env.MONGODB_URI;
+
 mongoose
-  .connect(url, {
-    useUnifiedTopology: true,
+  .connect(uri, {
     useNewUrlParser: true,
     useCreateIndex: true
   })

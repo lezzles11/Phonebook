@@ -1,13 +1,11 @@
-if (process.env.NODE_ENV !== "production") {
-	require("dotenv").config();
-}
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 const Person = require("./models/person");
-
+const mongoose = require("mongoose");
 const app = express();
+require("dotenv").config();
 
 app.use(bodyParser.json());
 app.use(cors());
